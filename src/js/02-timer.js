@@ -2,15 +2,16 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Notiflix from 'notiflix';
 
-refs = {
-    input: document.querySelector('input[type="text"]'),
-    startBtn: document.querySelector('[data-start]'),
-    daysEl: document.querySelector('[data-days]'),
-    hoursEl: document.querySelector('[data-hours]'),
-    minutesEl: document.querySelector('[data-minutes]'),
-    secondsEl: document.querySelector('[data-seconds]'),
-}
-refs.startBtn.disabled = true;
+
+input = document.querySelector('input[type="text"]'),
+startBtn = document.querySelector('[data-start]'),
+daysEl = document.querySelector('[data-days]'),
+hoursEl = document.querySelector('[data-hours]'),
+minutesEl = document.querySelector('[data-minutes]'),
+secondsEl = document.querySelector('[data-seconds]'),
+
+
+startBtn.disabled = true;
 let selectedDate = null;
 
 
@@ -27,24 +28,24 @@ const options = {
         if (dateNow >= selectedDate) {
             return Notiflix.Notify.failure('Please choose a date in the future');
         }
-        refs.startBtn.disabled = false;
+        startBtn.disabled = false;
         return selectedDate;
   },
 };
 
 
-flatpickr(refs.input, options);
+flatpickr(input, options);
 
-refs.startBtn.addEventListener('click', () => {
+startBtn.addEventListener('click', () => {
     const IntervalId = setInterval(() => {
         const timerTimeNow = Date.now();
         const deltaTime = selectedDate - timerTimeNow;
         const { days, hours, minutes, seconds } = convertMs(deltaTime);
 
-        refs.daysEl.textContent = days;
-        refs.hoursEl.textContent = hours;
-        refs.minutesEl.textContent = minutes;
-        refs.secondsEl.textContent = seconds;
+        daysEl.textContent = days;
+        hoursEl.textContent = hours;
+        minutesEl.textContent = minutes;
+        secondsEl.textContent = seconds;
         
         if (deltaTime <= 1000) {
         clearInterval(IntervalId);
