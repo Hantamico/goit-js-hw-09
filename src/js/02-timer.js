@@ -8,6 +8,7 @@ const hoursEl = document.querySelector('span[data-hours]');
 const minutesEl = document.querySelector('span[data-minutes]');
 const secondsEl = document.querySelector('span[data-seconds]');
 const inputEL = document.getElementById('datetime-picker');
+let selectedDate;
 startBtn.addEventListener('click', clickOnStart);
 startBtn.setAttribute('disabled', 'disabled');
 
