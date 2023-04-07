@@ -34,7 +34,7 @@ const options = {
 };
 
 
-flatpickr(input, options);
+flatpickr(inputEl, options);
 
 startBtn.addEventListener('click', () => {
     const IntervalId = setInterval(() => {
