@@ -1,19 +1,33 @@
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
+const startBtn = document.querySelector('button[data-start]');
+const daysEl = document.querySelector('span[data-days]');
+const hoursEl = document.querySelector('span[data-hours]');
+const minutesEl = document.querySelector('span[data-minutes]');
+const secondsEl = document.querySelector('span[data-seconds]');
+const inputEL = document.getElementById('datetime-picker');
+startBtn.addEventListener('click', clickOnStart);
+startBtn.setAttribute('disabled', 'disabled');
 
-inputEl = document.querySelector('datetime-picker'),
-startBtn = document.querySelector('[data-start]'),
-daysEl = document.querySelector('[data-days]'),
-hoursEl = document.querySelector('[data-hours]'),
-minutesEl = document.querySelector('[data-minutes]'),
-secondsEl = document.querySelector('[data-seconds]'),
 
+function clickOnStart() {
+  const IntervalId = setInterval(() => {
+    const timerTimeNow = Date.now();
+    const deltaTime = selectedDate - timerTimeNow;
+    const { days, hours, minutes, seconds } = convertMs(deltaTime);
 
-startBtn.disabled = true;
-let selectedDate = null;
-
+    daysEl.textContent = days;
+    hoursEl.textContent = hours;
+    minutesEl.textContent = minutes;
+    secondsEl.textContent = seconds;
+    
+    if (deltaTime <= 1000) {
+    clearInterval(IntervalId);
+    }
+  }, 1000);
+};
 
 
 const options = {
@@ -28,31 +42,15 @@ const options = {
         if (dateNow >= selectedDate) {
             return Notiflix.Notify.failure('Please choose a date in the future');
         }
-        startBtn.disabled = false;
+        startBtn.removeAttribute('disabled', 'disabled');
         return selectedDate;
   },
 };
+console.log(options)
+
+flatpickr(inputEL, options);
 
 
-flatpickr(inputEl, options);
-
-startBtn.addEventListener('click', () => {
-    const IntervalId = setInterval(() => {
-        const timerTimeNow = Date.now();
-        const deltaTime = selectedDate - timerTimeNow;
-        const { days, hours, minutes, seconds } = convertMs(deltaTime);
-
-        daysEl.textContent = days;
-        hoursEl.textContent = hours;
-        minutesEl.textContent = minutes;
-        secondsEl.textContent = seconds;
-        
-        if (deltaTime <= 1000) {
-        clearInterval(IntervalId);
-        }
-    }, 1000);
-    
-})
 
 
 function pad(value) {
